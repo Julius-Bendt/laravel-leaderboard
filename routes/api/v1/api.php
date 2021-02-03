@@ -42,7 +42,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::post('/new','LeaderboardController@create')->name("leaderboard.create");
         Route::post('/update','LeaderboardController@update')->name("leaderboard.update");
 
-        Route::delete("delete/{id}",'LeaderboardController@delete')->name("leaderboard.delete"); //todo
+        Route::get('/get','LeaderboardController@all')->name("leaderboard.all");
+        Route::get('/get/{id}','LeaderboardController@get')->name("leaderboard.get");
+
+        Route::delete("delete/{id}",'LeaderboardController@delete')->name("leaderboard.delete");
 
         //Get all leaderboards
     });

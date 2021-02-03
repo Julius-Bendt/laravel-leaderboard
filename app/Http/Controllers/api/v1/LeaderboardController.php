@@ -54,4 +54,45 @@ class LeaderboardController extends Controller
             $leaderboard->save();
         }
     }
+
+    public function all()
+    {
+        $leaderboards = Leaderboard::where("user_id", Auth::id())
+        ->get();
+
+        return response()->json(["leaderboards" => $leaderboards]);
+    }
+
+    public function get($id)
+    {
+        $leaderboard = Leaderboard::find($id);
+
+        if(!$leaderboard)
+        {
+            return response()->json(["message" => "invalid id or wrong permission"],400);
+        }
+
+        if($leaderboard->user_id != Auth::id())
+        {
+            return response()->json(["message" => "invalid id or wrong permission"],400);
+        }
+
+
+        return response()->json(["leaderboard" => $leaderboard]);
+    }
+
+    public function delete($id)
+    {
+        $leaderboard = Leaderboard::find($id);
+
+        if(!$leaderboard)
+        {
+            return response()->json(["message" => "invalid id or wrong permission"],400);
+        }
+
+        if($leaderboard->user_id != Auth::id())
+        {
+            return response()->json(["message" => "invalid id or wrong permission"],400);
+        }
+    }
 }
