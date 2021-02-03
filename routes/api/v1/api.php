@@ -21,11 +21,7 @@ Route::prefix('/user')->group(function(){
     Route::post('/register','AuthController@Register')->name("user.register");
 });
 
-
-Route::prefix('/leaderboard/{key}/{secret}')->group(function(){
-    Route::get('/amount','LeaderboardController@getActiveUsersBetween')->name("leaderboard.amount");
-    Route::get('/get/{offset}/{limit}','LeaderboardController@getActiveUsersBetween')->name("leaderboard.fetch");
-});
+Route::get('/leaderboard/get/{key}/{secret}','LeaderboardController@getLeaderboard')->name("leaderboard.game.get");
 
 Route::prefix('/score')->group(function(){
     Route::post('/new','ScoreController@createOrUpdate')->name("score.create");
@@ -46,8 +42,11 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::get('/get/{id}','LeaderboardController@get')->name("leaderboard.get");
 
         Route::delete("delete/{id}",'LeaderboardController@delete')->name("leaderboard.delete");
+    });
 
-        //Get all leaderboards
+    //id is leaderboard id
+    Route::prefix('/scores/{id}')->group(function(){
+        Route::get('/get/{limit}/{offset}','ScoreController@fetchFromDashboard')->name("score.dashboard.fetch");
     });
 });
 

@@ -12,6 +12,16 @@ use Illuminate\Support\Str;
 
 class LeaderboardController extends Controller
 {
+    public function getLeaderboard($key, $secret)
+    {
+        $leaderboard = Leaderboard::where("key",$key)
+        ->where("secret", $secret)
+        ->get()
+        ->first();
+
+        return response()->json(["leaderboard" => $leaderboard]);
+    }
+
     public function create(Request $request)
     {
         $data = $request->validate([
