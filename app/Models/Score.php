@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Score extends Model
 {
+    protected $fillable = [
+        "username",
+        "score",
+        "leaderboard_id"
+    ];
+
     use HasFactory;
 }
