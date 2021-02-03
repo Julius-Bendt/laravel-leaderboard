@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\v1\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +22,29 @@ Route::prefix('/user')->group(function(){
 });
 
 
-
-/*
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-
+Route::prefix('/leaderboard/{key}/{secret}')->group(function(){
+    Route::get('/amount','LeaderboardController@getActiveUsersBetween')->name("leaderboard.amount");
+    Route::get('/get/{offset}/{limit}','LeaderboardController@getActiveUsersBetween')->name("leaderboard.fetch");
 });
-*/
+
+Route::prefix('/score')->group(function(){
+    Route::post('/new','ScoreController@createOrUpdate')->name("score.create");
+    Route::post('/update','ScoreController@createOrUpdate')->name("score.update"); //Gives false security, even though it does the same as create.
+
+    //Move to score controller
+    Route::get('/amount/{key}/{secret}','ScoreController@amount')->name("leaderboard.amount");
+    Route::get('/fetch/{key}/{secret}/{offset}/{limit}','ScoreController@fetch')->name("leaderboard.fetch");
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function()
+{
+    Route::prefix('/leaderboard')->group(function(){
+        Route::post('/new','LeaderboardController@create')->name("leaderboard.create");
+        Route::post('/update','LeaderboardController@update')->name("leaderboard.update");
+
+        Route::delete("delete/{id}",'LeaderboardController@delete')->name("leaderboard.delete"); //todo
+
+        //Get all leaderboards
+    });
+});
+

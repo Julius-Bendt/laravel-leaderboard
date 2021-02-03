@@ -51,35 +51,7 @@ class LeaderboardController extends Controller
         if($data["revoke"] != null && $data["revoke"])
         {
             $leaderboard->secret = Hash::make(Str::uuid());
+            $leaderboard->save();
         }
-    }
-
-
-    public function pagnate($key,$secret, $limit, $offset)
-    {
-        $leaderboard = Leaderboard::where("key",$key)
-        ->where("secret",$secret)
-        ->get()
-        ->first();
-
-        if(!$leaderboard)
-        {
-            return response()->json(["message" => "invalid table key or secret"],400);
-        }
-
-
-        $scores = Score::where("table_id",$leaderboard->id)
-        ->offset($offset)
-        ->limit($limit)
-        ->get();
-
-        return response()->json(["scores" => $scores]);
-
-    }
-
-    public function amount($id)
-    {
-        $scores = Score::where("table_id",$id)
-        ->count();
     }
 }
