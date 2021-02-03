@@ -15,6 +15,10 @@ class CreateLeaderboardsTable extends Migration
     {
         Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
+            $table->string("name");
+            $table->string("key");
+            $table->string("secret");
+            $table->integer("user_id");
             $table->timestamps();
         });
     }
