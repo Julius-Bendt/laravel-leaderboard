@@ -67,6 +67,17 @@ class ScoreController extends Controller
 
     }
 
+    public function dashboardFetch($id, $limit, $offset)
+    {
+        $scores = Score::where("leaderboard_id",$id)
+        ->offset($offset)
+        ->limit($limit)
+        ->orderBy("score", "desc")
+        ->get();
+
+        return response()->json(["scores" => $scores]);
+    }
+
     public function amount($key,$secret)
     {
         $leaderboardId = $this->validateTable($key, $secret);

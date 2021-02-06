@@ -58,7 +58,7 @@ class LeaderboardController extends Controller
 
         $leaderboard->name = $data["name"]??$leaderboard->name;
 
-        if($data["revoke"] != null && $data["revoke"])
+        if(isset($data["revoke"]) && $data["revoke"])
         {
             $leaderboard->secret = Hash::make(Str::uuid());
             $leaderboard->save();
