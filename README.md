@@ -22,4 +22,4 @@ php artisan serve
 - Create a unity package
 - Host project on a droplet
 
-Made with :heart: in Aalborg, Denmark using Vue and Bootstrap.
+Made with :heart: in Aalborg, Denmark using Laravel 8
